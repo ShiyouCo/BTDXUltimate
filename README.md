@@ -24,6 +24,12 @@ Here are the list of PCBs tested and confirmed working with the code :
 
 NOTE: The clone version of USB Host Mini V2.0 doesn't have VBUS jumper which means it will only work with 3.3V USB devices. You have to cut a trace in order to be able to use 5 Volt USB devices.
 
+You can check which trace needs to be cut here : 
+
+(https://www.hackster.io/139994/plug-any-usb-device-on-an-esp8266-e0ca8a) 
+
+but don't follow the ESP32 wiring there because it's incorrect.
+
 ESP32 and USB Host Shield Mini communicates via SPI. Here are the pinouts used to connect them together : 
 
 | ESP32 | USB Host Shield Mini |
