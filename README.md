@@ -1,7 +1,11 @@
 ﻿
 # BTDXUltimate
 
-Convert Infinitas-compatible USB IIDX Controllers into bluetooth IIDX Entry model controller via ESP32 and USB Host Shield.
+Convert Infinitas compatible USB IIDX Controllers into bluetooth IIDX Entry model controller via ESP32 and USB Host Shield.
+
+The idea is that you can plug in compatible USB IIDX controllers to the adapter and it will carry the controller data to IIDX Ultimate Mobile via bluetooth. This way, you can use any (compatible) controllers to play IIDX UM on iOS.
+
+So far it is found that dao controller with SS001 PCB (the newer black board, not the green one) spits out different HID report data, so it will need it's own parser in order to work (hopefully soon).
 
 
 ## Requirements
@@ -14,27 +18,26 @@ Convert Infinitas-compatible USB IIDX Controllers into bluetooth IIDX Entry mode
 
 Here are the list of PCBs tested and confirmed working with the code :
 
-- None so far (this is just a template)
+- Arduino Pro Micro with LeoDXUltimate firmware (this is my custom code)
 
 ## Wiring
 
 NOTE: The clone version of USB Host Mini V2.0 doesn't have VBUS jumper which means it will only work with 3.3V USB devices. You have to cut a trace in order to be able to use 5 Volt USB devices.
 
-Check out this page for the wiring guide :
-https://www.hackster.io/139994/plug-any-usb-device-on-an-esp8266-e0ca8a
+ESP32 and USB Host Shield Mini communicates via SPI. Here are the pinouts used to connect them together : 
 
-ESP32 and USB Host Shield Mini communicates via SPI.
 | ESP32 | USB Host Shield Mini |
 |----|----|
-|GPIO15|SS|
-|GPIO12|MISO|
-|GPIO13|MOSI|
-|GPIO14|SCK|
 |5V|5V|
 |3V3|3V3|
 |GND|GND|
+|GPIO5|SS|
+|GPIO19|MISO|
+|GPIO23|MOSI|
+|GPIO18|SCK|
+|GPIO17|INT|
 |EN|RST|
-|GPIO5|INT|
+
 
 
 ## Credits

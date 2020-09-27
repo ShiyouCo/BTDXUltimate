@@ -66,7 +66,9 @@ void JoystickEvents::OnGamePadChanged(const GamePadEventData *evt) {
   Serial.print("\tRz: ");
   PrintHex<uint8_t > (evt->Rz, 0x80);
   Serial.println("");
-  BTReport.TT = evt->X;
+  BTReport.TT = evt->Z2;
+  BTReport.Btn = evt->Y;
+  BTReport.EBtn = evt->Z1;
 }
 
 void JoystickEvents::OnHatSwitch(uint8_t hat) {
@@ -78,6 +80,7 @@ void JoystickEvents::OnHatSwitch(uint8_t hat) {
 void JoystickEvents::OnButtonUp(uint8_t but_id) {
   Serial.print("Up: ");
   Serial.println(but_id, DEC);
+  /*
     switch (but_id) {
     case 1:
       BTReport.Btn &= ~0x01;
@@ -107,11 +110,13 @@ void JoystickEvents::OnButtonUp(uint8_t but_id) {
       BTReport.EBtn &= ~0x02;
       break;
   }
+  */
 }
 
 void JoystickEvents::OnButtonDn(uint8_t but_id) {
   Serial.print("Dn: ");
   Serial.println(but_id, DEC);
+  /*
   switch (but_id) {
     case 1:
       BTReport.Btn |= 0x01;
@@ -141,6 +146,7 @@ void JoystickEvents::OnButtonDn(uint8_t but_id) {
       BTReport.EBtn |= 0x02;
       break;
   }
+  */
 }
 
 IIDXBTReport JoystickEvents::GetIIDXReport() {

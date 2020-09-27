@@ -136,7 +136,7 @@ void loop() {
   btReport[2] = FinalReport.Btn;
   btReport[3] = FinalReport.EBtn;
 
-  Usb.Task();
+  //Usb.Task();
   FinalReport = JoyEvents.GetIIDXReport();
   btReport[5] = FinalReport.TT;
   btReport[6] = 0x00;
@@ -145,7 +145,7 @@ void loop() {
 
   // notify changed value
   unsigned long timeSpanNotify = millis() - lastNotify;
-  if (deviceConnected && timeSpanNotify > 50) {
+  if (deviceConnected && timeSpanNotify > 8) {
     btReport[4] = frameCounter++;
     btReport[9] = frameCounter++;
     pCharacteristic->setValue((uint8_t*)&btReport, 10);
