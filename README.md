@@ -13,7 +13,7 @@ Since IIDX Ultimate Mobile doesn't support USB controllers on iOS, the idea is t
 
 ## Compatibility
 
-Here are the list of PCBs tested and confirmed(?) working with the code :
+Here are the list of PCBs parsed, tested, and confirmed(?) working with the code :
 
 - Arduino Pro Micro with LeoDXUltimate firmware (this is my custom code)
 - Dao SS001 PCB on latest firmware
