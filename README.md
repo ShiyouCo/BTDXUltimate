@@ -3,7 +3,7 @@
 
 Convert Infinitas compatible USB IIDX Controllers into bluetooth IIDX Entry model controller via ESP32 and USB Host Shield.
 
-The idea is that you can plug in compatible USB IIDX controllers to the adapter and it will carry the controller data to IIDX Ultimate Mobile via bluetooth. This way, you can use any (compatible) controllers to play IIDX UM on iOS.
+Since IIDX Ultimate Mobile doesn't support USB controllers on iOS, the idea is that you can plug in compatible USB IIDX controllers to the adapter and it will carry the controller data to IIDX Ultimate Mobile via bluetooth. This way, you can theoretically use any USB controller to play IIDX UM on iOS.
 
 ## Requirements
 
@@ -42,7 +42,7 @@ ESP32 and USB Host Shield Mini communicates via SPI. Here are the pinouts used t
 |GPIO17|INT|
 |EN|RST|
 
-
+You might also want to provide power to the boards externally since running the wireless module while driving the controller, especially the one that has lights requires a lot of current.
 
 ## Credits
 
