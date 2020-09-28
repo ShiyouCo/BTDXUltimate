@@ -5,9 +5,6 @@ Convert Infinitas compatible USB IIDX Controllers into bluetooth IIDX Entry mode
 
 The idea is that you can plug in compatible USB IIDX controllers to the adapter and it will carry the controller data to IIDX Ultimate Mobile via bluetooth. This way, you can use any (compatible) controllers to play IIDX UM on iOS.
 
-So far it is found that dao controller with SS001 PCB (the newer black board, not the green one) spits out different HID report data, so it will need it's own parser in order to work (hopefully soon).
-
-
 ## Requirements
 
 - ESP32 development board
@@ -16,9 +13,10 @@ So far it is found that dao controller with SS001 PCB (the newer black board, no
 
 ## Compatibility
 
-Here are the list of PCBs tested and confirmed working with the code :
+Here are the list of PCBs tested and confirmed(?) working with the code :
 
 - Arduino Pro Micro with LeoDXUltimate firmware (this is my custom code)
+- Dao SS001 PCB on latest firmware
 
 ## Wiring
 

@@ -11,13 +11,26 @@ JoystickReportParser::JoystickReportParser(JoystickEvents *evt) :
 void JoystickReportParser::Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8_t *buf) {
   bool match = true;
 
+
   // Checking if there are changes in report since the method was last called
+
+
   for (uint8_t i = 0; i < RPT_GEMEPAD_LEN; i++)
     if (buf[i] != oldPad[i]) {
       match = false;
       break;
     }
-
+  /*
+    if (!match) {
+    Serial.print("RAW DATA : ");
+    for (uint8_t i = 0; i < RPT_GEMEPAD_LEN + 2; i++) {
+     Serial.print("0x");
+     Serial.print(buf[i], HEX);
+     Serial.print(" ");
+    }
+    Serial.println("");
+    }
+  */
   // Calling Game Pad event handler
   if (!match && joyEvents) {
     joyEvents->OnGamePadChanged((const GamePadEventData*)buf);
@@ -33,13 +46,32 @@ void JoystickReportParser::Parse(USBHID *hid, bool is_rpt_id, uint8_t len, uint8
     oldHat = hat;
   }
 
+
+  // Call dao TT event handler
+  if (buf[6] != oldTT && joyEvents) {
+    joyEvents->OnDaoTTChange(buf[6]);
+    oldTT = buf[6];
+  }
+
   uint16_t buttons = (0x0000 | buf[6]);
   buttons <<= 4;
   buttons |= (buf[5] >> 4);
   uint16_t changes = (buttons ^ oldButtons);
-
+  /*
+    if (changes) {
+    Serial.print("RAW DATA : ");
+    for (uint8_t i = 0; i < RPT_GEMEPAD_LEN + 2; i++) {
+      Serial.print("0x");
+      Serial.print(buf[i], HEX);
+      Serial.print(" ");
+    }
+    Serial.println("");
+    }
+  */
   // Calling Button Event Handler for every button changed
   if (changes) {
+
+
     for (uint8_t i = 0; i < 0x0C; i++) {
       uint16_t mask = (0x0001 << i);
 
@@ -66,9 +98,25 @@ void JoystickEvents::OnGamePadChanged(const GamePadEventData *evt) {
   Serial.print("\tRz: ");
   PrintHex<uint8_t > (evt->Rz, 0x80);
   Serial.println("");
+  // Set reports for entry model controller compatible format
   BTReport.TT = evt->Z2;
   BTReport.Btn = evt->Y;
   BTReport.EBtn = evt->Z1;
+
+  // Set Reports for dao controller format
+  uint8_t DaoEBtn = (0x01 & evt->Z1) | ((0x08 & evt->Z1) >> 2);
+  DAOReport.EBtn = DaoEBtn;
+  uint8_t DaoBtn = 0x00;
+  DaoBtn |= (0x80 & evt->Z2) >> 7; //B1
+  DaoBtn |= (0x04 & evt->Z2) >> 1; //B2
+  DaoBtn |= (0x40 & evt->Z2) >> 4; //B3
+  DaoBtn |= (0x08 & evt->Z2); //B4
+  DaoBtn |= (0x20 & evt->Z2) >> 1; //B5
+  DaoBtn |= (0x01 & evt->Z2) << 5; //B6
+  DaoBtn |= (0x80 & evt->Z1) >> 1; //B7
+  DAOReport.Btn = DaoBtn;
+
+
 }
 
 void JoystickEvents::OnHatSwitch(uint8_t hat) {
@@ -109,7 +157,7 @@ void JoystickEvents::OnButtonUp(uint8_t but_id) {
     case 10:
       BTReport.EBtn &= ~0x02;
       break;
-  }
+    }
   */
 }
 
@@ -117,7 +165,7 @@ void JoystickEvents::OnButtonDn(uint8_t but_id) {
   Serial.print("Dn: ");
   Serial.println(but_id, DEC);
   /*
-  switch (but_id) {
+    switch (but_id) {
     case 1:
       BTReport.Btn |= 0x01;
       break;
@@ -145,11 +193,20 @@ void JoystickEvents::OnButtonDn(uint8_t but_id) {
     case 10:
       BTReport.EBtn |= 0x02;
       break;
-  }
+    }
   */
 }
 
-IIDXBTReport JoystickEvents::GetIIDXReport() {
-    return BTReport;
+void JoystickEvents::OnDaoTTChange(uint8_t ttValue) {
+  DAOReport.TT = map(ttValue, 0, 255, 0, 511);
 }
+
+IIDXBTReport JoystickEvents::GetIIDXReport() {
+  return BTReport;
+}
+
+IIDXBTReport JoystickEvents::GetDAOReport() {
+  return DAOReport;
+}
+
 

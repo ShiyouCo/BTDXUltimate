@@ -1,6 +1,8 @@
 #if !defined(__HIDJOYSTICKRPTPARSER_H__)
 #define __HIDJOYSTICKRPTPARSER_H__
 
+
+
 #include <usbhid.h>
 
 struct GamePadEventData {
@@ -17,10 +19,13 @@ public:
         virtual void OnHatSwitch(uint8_t hat);
         virtual void OnButtonUp(uint8_t but_id);
         virtual void OnButtonDn(uint8_t but_id);
+        virtual void OnDaoTTChange(uint8_t ttValue);
         //IIDXBTReport BTReport;
         IIDXBTReport GetIIDXReport();
+        IIDXBTReport GetDAOReport();
 private:
         IIDXBTReport BTReport;
+        IIDXBTReport DAOReport;
 };
 
 #define RPT_GEMEPAD_LEN		5
@@ -31,6 +36,7 @@ class JoystickReportParser : public HIDReportParser {
         uint8_t oldPad[RPT_GEMEPAD_LEN];
         uint8_t oldHat;
         uint16_t oldButtons;
+        uint8_t oldTT;
 
 public:
         JoystickReportParser(JoystickEvents *evt);
