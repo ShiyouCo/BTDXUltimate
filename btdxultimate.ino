@@ -65,7 +65,7 @@ int connectedDevice = 4;
 #define DAO_VID 0x054C
 
 #define PREMIUM_MODEL_PID 0x1CCF
-#define PREMIUM_MODEL_VID 0x0000
+#define PREMIUM_MODEL_VID 0x8018
 
 #define ENTRY_MODEL_PID 0x1CCF
 #define ENTRY_MODEL_VID 0x1018
